@@ -430,7 +430,7 @@
 
     <script>
         // Manejar el envío del formulario
-        document.getElementById('reporteForm').addEventListener('submit', async function(e) {
+        document.getElementById('reporteForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Obtener equipos seleccionados de los checkboxes
@@ -460,38 +460,55 @@
             // URL del Google Apps Script
             const scriptURL = 'https://script.google.com/a/macros/nubank.com.br/s/AKfycbxHtzInRXE3jkuehJ3vcCSkT0DvxYDeiOhZc5xfCnFDQ_Qqz2OcBkycvKcIVne9EMxUnw/exec';
             
-            try {
-                // Enviar datos al Google Sheet
-                const response = await fetch(scriptURL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(reporte)
-                });
-                
-                // Mostrar mensaje de éxito
-                const successMessage = document.getElementById('successMessage');
-                successMessage.classList.add('show');
-                console.log('✅ Reporte enviado exitosamente:', reporte);
-                
-                // Limpiar formulario
-                this.reset();
-                
-                // Ocultar mensaje después de 3 segundos
-                setTimeout(() => {
-                    successMessage.classList.remove('show');
-                }, 3000);
-                
-            } catch (error) {
-                console.error('❌ Error al enviar el reporte:', error);
-                alert('❌ Hubo un error al enviar el reporte. Por favor, intenta nuevamente.');
-            } finally {
-                // Rehabilitar botón
+            // Crear un formulario oculto para enviar con credenciales
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = scriptURL;
+            form.target = 'hidden_iframe';
+            form.style.display = 'none';
+            
+            // Agregar campos al formulario
+            Object.keys(reporte).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = reporte[key];
+                form.appendChild(input);
+            });
+            
+            // Crear iframe oculto para recibir la respuesta
+            let iframe = document.getElementById('hidden_iframe');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.name = 'hidden_iframe';
+                iframe.id = 'hidden_iframe';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+            
+            // Agregar formulario y enviarlo
+            document.body.appendChild(form);
+            form.submit();
+            
+            // Mostrar mensaje de éxito
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+            console.log('✅ Reporte enviado exitosamente:', reporte);
+            
+            // Limpiar formulario
+            document.getElementById('reporteForm').reset();
+            
+            // Ocultar mensaje después de 3 segundos
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 3000);
+            
+            // Rehabilitar botón
+            setTimeout(() => {
                 submitButton.disabled = false;
                 submitButton.innerHTML = originalText;
-            }
+                form.remove();
+            }, 1000);
         });
 
         // Inicializar al cargar la página
