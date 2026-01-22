@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Xtronaut</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwMDAxMmY7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMxYTBmM2Y7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMDAwMTJmO3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYmcpIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMDAiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjA1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj5udTwvdGV4dD48L3N2Zz4=');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 0, 255, 0.85) 0%, rgba(138, 43, 226, 0.75) 50%, rgba(75, 0, 130, 0.85) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+            letter-spacing: 1px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #f0e0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8)); }
+        }
+
+        .form-container {
+            display: block;
+            background: linear-gradient(145deg, #ffffff, #f8f5ff);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 0, 255, 0.1);
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #8b00ff;
+            font-weight: 600;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        label::before {
+            content: '●';
+            color: #8b00ff;
+            font-size: 12px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #d0a0ff;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #ffffff, #faf8ff);
+            box-shadow: 0 4px 15px rgba(139, 0, 255, 0.08);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        input[type="text"]:hover,
+        textarea:hover,
+        select:hover {
+            border-color: #b580ff;
+            box-shadow: 0 6px 20px rgba(139, 0, 255, 0.15);
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #8b00ff;
+            box-shadow: 0 0 20px rgba(139, 0, 255, 0.3), 0 8px 25px rgba(139, 0, 255, 0.15);
+            transform: translateY(-2px);
+            background: #ffffff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        /* Estilos para checkbox group */
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            padding: 16px;
+            background: linear-gradient(145deg, #ffffff, #faf8ff);
+            border: 2px solid #d0a0ff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(139, 0, 255, 0.08);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: linear-gradient(145deg, #ffffff, #fdfbff);
+            border: 2px solid #e8d5ff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .checkbox-label:hover {
+            background: linear-gradient(145deg, #f5f0ff, #f0e0ff);
+            border-color: #b580ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 0, 255, 0.15);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #8b00ff;
+            flex-shrink: 0;
+        }
+
+        .checkbox-label span {
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .checkbox-label:has(input:checked) {
+            background: linear-gradient(145deg, #8b00ff, #7a00e6);
+            border-color: #8b00ff;
+            box-shadow: 0 4px 15px rgba(139, 0, 255, 0.3);
+        }
+
+        .checkbox-label:has(input:checked) span {
+            color: white;
+            font-weight: 600;
+        }
+
+        select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b00ff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        select option {
+            padding: 10px;
+            background: #ffffff;
+            color: #333;
+        }
+
+        select option:checked {
+            background: linear-gradient(145deg, #8b00ff, #7a00e6);
+            color: white;
+        }
+
+        select[multiple] {
+            padding: 10px;
+            background: linear-gradient(145deg, #ffffff, #faf8ff);
+        }
+
+        select[multiple] option {
+            padding: 12px 15px;
+            margin: 4px 0;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        select[multiple] option:hover {
+            background: linear-gradient(145deg, #f0e0ff, #e8d5ff);
+        }
+
+        select[multiple] option:checked {
+            background: linear-gradient(145deg, #8b00ff, #7a00e6);
+            color: white;
+            font-weight: 600;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(145deg, #8b00ff, #6a00cc);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(139, 0, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .submit-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .submit-button:hover {
+            background: linear-gradient(145deg, #9d1fff, #7a00e6);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(139, 0, 255, 0.6);
+        }
+
+        .submit-button:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 6px 20px rgba(139, 0, 255, 0.4);
+        }
+
+        .submit-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animación de entrada para los campos del formulario */
+        .form-group {
+            animation: slideInLeft 0.5s ease-out backwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .success-message {
+            display: none;
+            padding: 20px;
+            background: linear-gradient(145deg, #4caf50, #45a049);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.4);
+            border: 2px solid #66bb6a;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.5s ease-out, pulse 2s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 6px 25px rgba(76, 175, 80, 0.4); }
+            50% { box-shadow: 0 6px 35px rgba(76, 175, 80, 0.6); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reporte Xtronaut</h1>
+        
+        <!-- Formulario -->
+        <div class="form-container">
+            <div id="successMessage" class="success-message">✅ ¡Reporte enviado exitosamente al Google Sheet!</div>
+            
+            <form id="reporteForm">
+                <div class="form-group">
+                    <label for="responsable">Responsable del Reporte</label>
+                    <input type="text" id="responsable" name="responsable" placeholder="Ingrese su correo electrónico" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pvCx">Ingresa el Customer Id del caso</label>
+                    <input type="text" id="pvCx" name="pvCx" placeholder="Ingresa el Customer Id del caso" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Selección de Equipos</label>
+                    <div class="checkbox-group" id="equipos">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Acquisition">
+                            <span>Acquisition</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Auth/CB">
+                            <span>Auth/CB</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Cuenta/Pay">
+                            <span>Cuenta/Pay</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Fraud">
+                            <span>Fraud</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Bills">
+                            <span>Bills</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="CSI">
+                            <span>CSI</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Customer Management">
+                            <span>Customer Management</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Collections">
+                            <span>Collections</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Logistic">
+                            <span>Logistic</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="equipos" value="Lending">
+                            <span>Lending</span>
+                        </label>
+                    </div>
+                    <small style="display: block; margin-top: 8px; color: #8b00ff; font-size: 14px; font-style: italic;">
+                        💡 Selecciona uno o más equipos
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios">Comentarios</label>
+                    <textarea id="comentarios" name="comentarios" placeholder="Ingrese sus comentarios aquí" required></textarea>
+                    <small style="display: block; margin-top: 8px; color: #8b00ff; font-size: 14px; font-style: italic;">
+                        Describenos por qué el skip no es válido
+                    </small>
+                </div>
+
+                <button type="submit" class="submit-button"><span>Enviar Reporte</span></button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Manejar el envío del formulario
+        document.getElementById('reporteForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Obtener equipos seleccionados de los checkboxes
+            const equiposCheckboxes = document.querySelectorAll('input[name="equipos"]:checked');
+            const equiposSeleccionados = Array.from(equiposCheckboxes).map(checkbox => checkbox.value);
+            
+            if (equiposSeleccionados.length === 0) {
+                alert('Por favor seleccione al menos un equipo');
+                return;
+            }
+            
+            // Deshabilitar botón de envío
+            const submitButton = this.querySelector('.submit-button');
+            const originalText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span>⏳ Enviando...</span>';
+            
+            // Crear objeto de reporte
+            const reporte = {
+                fecha: new Date().toLocaleString('es-ES'),
+                responsable: document.getElementById('responsable').value,
+                pvCx: document.getElementById('pvCx').value,
+                equipos: equiposSeleccionados.join(', '),
+                comentarios: document.getElementById('comentarios').value
+            };
+            
+            // URL del Google Apps Script
+            const scriptURL = 'https://script.google.com/a/macros/nubank.com.br/s/AKfycbxHtzInRXE3jkuehJ3vcCSkT0DvxYDeiOhZc5xfCnFDQ_Qqz2OcBkycvKcIVne9EMxUnw/exec';
+            
+            try {
+                // Enviar datos al Google Sheet
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(reporte)
+                });
+                
+                // Mostrar mensaje de éxito
+                const successMessage = document.getElementById('successMessage');
+                successMessage.classList.add('show');
+                console.log('✅ Reporte enviado exitosamente:', reporte);
+                
+                // Limpiar formulario
+                this.reset();
+                
+                // Ocultar mensaje después de 3 segundos
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 3000);
+                
+            } catch (error) {
+                console.error('❌ Error al enviar el reporte:', error);
+                alert('❌ Hubo un error al enviar el reporte. Por favor, intenta nuevamente.');
+            } finally {
+                // Rehabilitar botón
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
+            }
+        });
+
+        // Inicializar al cargar la página
+        window.addEventListener('load', function() {
+            console.log('%c💜 REPORTE XTRONAUT - Sistema de Skips', 'font-size: 16px; font-weight: bold; color: #8b00ff;');
+            console.log('%c✅ Sistema conectado con Google Sheets', 'color: #4caf50; font-weight: bold;');
+            console.log('%cLos reportes se envían automáticamente al Google Sheet al hacer clic en "Enviar Reporte".', 'color: #666;');
+        });
+    </script>
+</body>
+</html>
+
